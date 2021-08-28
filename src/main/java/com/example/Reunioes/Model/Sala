@@ -1,0 +1,41 @@
+package com.example.reunioes.Model;
+
+import javax.persistence.*
+
+@Entity
+@Table(name= "reunioes")
+public class Sala {
+
+    private long Id;
+    private String name;
+    private String date;
+    private String startHour;
+    private String endHour;
+
+}
+@Id
+@GeneratedValue(strategy = GenatationType.AUTO)
+public Sala(long id) {
+    Id = id;
+}
+@Column(name="name", nullable = false)
+    public Sala(String name) {
+        this.name = name;
+    }
+@Column(name="date", nullable = false)
+    public Sala(String date) {
+    this.date = date;
+}
+@@Column(name="startHour", nullable = false)
+    public Sala(String startHour) {
+    this.startHour = startHour;
+}
+@Column(name="endHour", nullable = false)
+    public Sala(String endHour) {
+    this.endHour = endHour;
+}
+@Override
+
+public String toString() {
+    return Sala "["id="+id+,"name="+name, "date="+date, "startHour="+startHour, "endHour="+endHour]";
+}
