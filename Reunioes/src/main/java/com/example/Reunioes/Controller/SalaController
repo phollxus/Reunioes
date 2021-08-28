@@ -1,0 +1,72 @@
+package com.example.reunioes.Controller;
+
+import com.example.reunioes.exception.ResourceNotFoundException;
+import com.example.reunioes.model.Sala;
+import com.example.reunioes.repository.SalaRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CreateOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+@RestController @CreateOrigin(origins = "http://localhost::8888")
+@RequestMapping("/api/v1")
+public class SalaController {
+
+    @Autowired
+    private SalaRepository salaRepository;
+    @GetMapping("/salas")
+    public List<Sala> getAllSalas() {
+        return salaRepository.findAll();
+    }
+    @GetMapping("/salas, id")
+    public List<Sala> getAllSalas() {
+        return salaRepository.findAll();
+    }
+    public ResponseEntity<Sala> getSalaById(@PathVariable(value = "id"), long salaId) {
+        throws ResourceNotFoundException {
+            Sala sala = salaRepository.finfById(salaId);
+            .orElseThrow(()-> new ResourceNotFoundException("Sala nao encontrada:: " + sala(Id));
+            return ResponseEntity.ok().body(sala);
+        }
+     @PostMapping("/salas")
+     public Sala createSala (@Valid @RequestBody Sala sala) {
+            return salaRepository.save(sala);
+        }
+     @PutMapping("/salas/{id}")
+     public ResponseEntity<Sala> updateSala(@PathVariable (value = "id") long salaId
+        @Valid @RequestBody Sala salaDetails) throws ResourceNotFoundException;
+        Sala sala = salaRepository.findById(salaId)
+                .orElseThrow(()-> new ResourceNotFoundException("Sala não encontrada para este id"+ salaId));
+        sala.setName(salaDetails.getName());
+        sala.setDate(salaDetails.getDate());
+        sala.setStartHour(salaDetails.getStartHour());
+        sala.setEndHour(salaDetails.getEndHour());
+        final Sala updateSala = salaRepository.save(sala);
+        return ResponseEntity.ok (updateSala);
+    }
+    @DeleteMapping("/salas/{id}")
+    public Map<String, Boolean> deleteSala(@PathVariable(value = "id") long salaid)
+        throws ResourceNotFoundException {
+        Sala sala = salaRepository.findById(salaid)
+                .orElseThrow(()-> new ResourceNotFoundException("Sala não encontrada para este id::" + salaid));
+
+        salaRepository.delete(sala);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put ("Deletado com sucesso", Boolean.TRUE);
+        return response;
+
+
+    }
+}
