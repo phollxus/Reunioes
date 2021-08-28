@@ -1,0 +1,9 @@
+package com.example.reunioes.Repository;
+
+import com.example.model.sala;
+import org.springframework.data.jpa.repository.JPARepository;
+import org.springframework.stereotype.Repository;
+
+public class SalaRepository extends JPARepository<Sala, Long> {
+
+}
